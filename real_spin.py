@@ -13,6 +13,7 @@ class robot_spin(object):
     def __init__(self):
         self.center = ''
         self.new_center = ''
+        self.x = 0
         rospy.init_node('rotate_itself')
         rospy.Subscriber('tell_center', String, self.center_callback)
         rospy.wait_for_message('tell_center', String)
@@ -38,6 +39,23 @@ class robot_spin(object):
                 #rate.sleep()
             elif self.center == 'Not center':
                 if self.new_center == 'Not new center':
+                    #Adjust depending on last seen x value.
+                    if self.x >= 320:
+                        print("Turning right")
+                        pub = rospy.Publisher('/cmd_vel_mux/input/navi', Twist, queue_size=1)
+                        rate = rospy.Rate(100)
+                        rot = Twist()
+                        rot.angular.z = -0.5
+                        pub.publish(rot)
+                    elif self.x <= 320:
+                        print("Turning left")
+                        pub = rospy.Publisher('/cmd_vel_mux/input/navi', Twist, queue_size=1)
+                        rate = rospy.Rate(100)
+                        rot = Twist()
+                        rot.angular.z = 0.5
+                        pub.publish(rot)
+
+                    #Adjust with left spin always.
                     print("Where are you")
                     pub = rospy.Publisher('/cmd_vel_mux/input/navi', Twist, queue_size=1)
                     rate = rospy.Rate(100)
