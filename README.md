@@ -7,6 +7,10 @@ The project utilize:
 
 Getting Started
 TODO
+1. connect to turtlebot2 and launch bringup file
+2. launch freenect.launch
+3. Run person_detect.py , detect_newcen.py, real_spin.py from demo_yolo package
+4. Run hand_detect.py from hand_yolo package
 
 To learn more about this projects components:
   ROS: 
